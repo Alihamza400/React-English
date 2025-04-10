@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import Child from './Child.jsx';
-import './App.css';
+import { useState,useEffect } from 'react'
+import  Component  from './Components.jsx'
+
+import './App.css'
 
 function App() {
-   const[state,setState] = useState("No Data");
-   const UpdateData = (state)=>{
-        setState(state);
-   }
-   return(
-    <div className='parent_component'>
-        <h1>Parent Component</h1>
-        <h2>Received Data from Child Component: {state}</h2>
-    <Child UpdateData = {UpdateData}/>
-    </div>
-   )
+  const [count, setCount] = useState(" ");
+  useEffect(()=>{
+    async function fetchData() {
+      const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35&longitude=139&current_weather=true');
+      const data = await response.json();
+      const stringData = JSON.stringify(data);
+      setCount(stringData);
+    }
+    console.log(count);
+    fetchData();
+
+  },[]);
+
+ 
+
+  return (
+    <>
+       <h1>Fetched Data is : {count}</h1>
+       <h1>Count is : {count}</h1>
+       <Component/>
+
+    </>
+  )
 }
 
 export default App
