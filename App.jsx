@@ -1,39 +1,21 @@
-import { useState,useMemo } from 'react';
-import './App.css';
+import { useCallback, useState } from 'react'
+import Child from './child'
+import './App.css'
 
 function App() {
-
-
-     const[counter,setcounter] = useState(0);
-     const[number,setnumber] = useState(0);
-    const expensive = (counter)=>{
-         for(let i=0;i<1000000000;i++){}
-          return counter;
-    
-  }
-  const increment = ()=>{
-    setcounter(counter+1);
-  }
-  const incre = ()=>{
-    setnumber(number+1);
-  }
-  
-  const data = useMemo(()=>
-    {
-      return expensive(counter);
-    },
-    [counter]
-    );
-
+  const[num,setnum] = useState(5);
+  const[toggle,settoggle] = useState(false);
+  const mulby2 = useCallback(()=>{
+      return num*2;
+  },[num]);
 
   return (
     <>
-    {/* {data} */}
-    <h1>Counter : {counter}</h1>
-    <button onClick={increment}>Counter</button>
-    <h1>Number: {number}</h1>
-    <button onClick={incre}>Number</button>
-      
+      <h1>Toggle value: {toggle.toString()}</h1>
+      <button onClick={()=>{settoggle(!toggle)}}>Click</button>
+      <button onClick={()=>{setnum(num+5)}}>Set</button>
+    
+      <Child mulby2= {mulby2}></Child>
     </>
   )
 }
